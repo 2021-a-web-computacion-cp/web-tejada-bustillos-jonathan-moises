@@ -3,8 +3,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [//moudlos importados
+
+  ],
+  controllers: [// controladores
+      AppController
+     ],
+  providers: [//servicios
+      AppService],
+  exports:[ //servicios Exportados(que se puedan utilizar en otros modulos )
+
+  ]
 })
 export class AppModule {}
+
+
