@@ -15,17 +15,53 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioController = void 0;
 const common_1 = require("@nestjs/common");
 const usuario_service_1 = require("./usuario.service");
+const usuaario_crear_dto_1 = require("./dto/usuaario-crear.dto");
+const class_validator_1 = require("class-validator");
 let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
         this.usuarioService = usuarioService;
     }
+    listaUsuarios(response) {
+        response.render('inicio');
+    }
     obtenerUno(parametrosRuta) {
         return this.usuarioService.buscarUno(+parametrosRuta.idUsuario);
     }
-    insertarUno(bodyParams) {
-        return this.usuarioService.crearUno(bodyParams);
+    async crearUno(parametrosCuerpo) {
+        const usuarioCrearDto = new usuaario_crear_dto_1.UsuarioCrearDto();
+        usuarioCrearDto.nombre = parametrosCuerpo.nombre;
+        usuarioCrearDto.apellido = parametrosCuerpo.apellido;
+        usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
+        try {
+            const errores = await class_validator_1.validate(usuarioCrearDto);
+            if (errores.length > 0) {
+                throw new common_1.BadRequestException('No envia bien parametros');
+            }
+            else {
+                return this.usuarioService.crearUno(usuarioCrearDto);
+            }
+        }
+        catch (error) {
+            console.error({
+                error: error, mensaje: 'Errores en crear usuario'
+            });
+            throw new common_1.InternalServerErrorException('Error Servidor');
+        }
+    }
+    editarUno(bodyParams, parametrosRuta) {
+        return this.usuarioService.actualizarUno({ where: { id: +parametrosRuta.idUsuario }, data: bodyParams });
+    }
+    borrarUno(parametrosRuta) {
+        return this.usuarioService.eliminarUno({ id: +parametrosRuta.idUsuario });
     }
 };
+__decorate([
+    common_1.Get('lista-usuarios'),
+    __param(0, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "listaUsuarios", null);
 __decorate([
     common_1.Get(':idUsuario'),
     __param(0, common_1.Param()),
@@ -38,8 +74,23 @@ __decorate([
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "crearUno", null);
+__decorate([
+    common_1.Put(':idUsuario'),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], UsuarioController.prototype, "insertarUno", null);
+], UsuarioController.prototype, "editarUno", null);
+__decorate([
+    common_1.Delete(':idUsuario'),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "borrarUno", null);
 UsuarioController = __decorate([
     common_1.Controller('usuario'),
     __metadata("design:paramtypes", [usuario_service_1.UsuarioService])
