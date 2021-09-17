@@ -19,6 +19,102 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
+    ejecutarSuma(queryParams, respuesta, request) {
+        if (request.signedCookies["total"] == undefined) {
+            respuesta.cookie('total', 100, {
+                signed: true
+            });
+            respuesta.sendStatus(200);
+            return 100;
+        }
+        else {
+            if (request.signedCookies["total"] <= 0) {
+                respuesta.cookie('total', 100, {
+                    signed: true
+                });
+                return "finalizo el juego ";
+            }
+            else {
+                let numero = Number(request.signedCookies["total"]) - Number(queryParams.uno) - Number(queryParams.dos);
+                respuesta.cookie('total', numero, {
+                    signed: true
+                });
+                return numero;
+            }
+        }
+    }
+    ejecutarResta(bodyParams, respuesta, request, cabecera) {
+        if (request.signedCookies["total"] == undefined) {
+            respuesta.cookie('total', 100, {
+                signed: true
+            });
+            respuesta.header('resultado', "100");
+            return 100;
+        }
+        else {
+            if (request.signedCookies["total"] <= 0) {
+                respuesta.cookie('total', 100, {
+                    signed: true
+                });
+                respuesta.header('resultado', "100");
+                return "finalizo el juego ";
+            }
+            else {
+                let numero = Number(request.signedCookies["total"]) - (Number(bodyParams.uno) - Number(bodyParams.dos));
+                respuesta.cookie('total', numero, {
+                    signed: true
+                });
+                respuesta.header('resultado', numero.toString());
+                return numero;
+            }
+        }
+    }
+    ejecutarMultiplicacion(params, respuesta, request) {
+        if (request.signedCookies["total"] == undefined) {
+            respuesta.cookie('total', 100, {
+                signed: true
+            });
+            return 100;
+        }
+        else {
+            if (request.signedCookies["total"] <= 0) {
+                respuesta.cookie('total', 100, {
+                    signed: true
+                });
+                return "finalizo el juego ";
+            }
+            else {
+                let numero = Number(request.signedCookies["total"]) - (Number(params.uno) * Number(params.dos));
+                respuesta.cookie('total', numero, {
+                    signed: true
+                });
+                return numero;
+            }
+        }
+    }
+    ejecutarDivision(params, respuesta, request) {
+        if (request.signedCookies["total"] == undefined) {
+            respuesta.cookie('total', 100, {
+                signed: true
+            });
+            return 100;
+        }
+        else {
+            if (request.signedCookies["total"] <= 0) {
+                respuesta.cookie('total', 100, {
+                    signed: true
+                });
+                return "finalizo el juego ";
+            }
+            else {
+                let numero = Number(request.signedCookies["total"]) - (Number(params.uno) / Number(params.dos));
+                respuesta.cookie('total', numero, {
+                    signed: true
+                });
+                return numero;
+            }
+        }
+    }
     getHello() {
         return this.appService.getHello();
     }
@@ -66,6 +162,47 @@ let AppController = class AppController {
         };
     }
 };
+__decorate([
+    common_1.Get("suma"),
+    common_1.HttpCode(200),
+    __param(0, common_1.Query()),
+    __param(1, common_1.Res({ passthrough: true })),
+    __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "ejecutarSuma", null);
+__decorate([
+    common_1.Post("resta"),
+    common_1.HttpCode(201),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Res({ passthrough: true })),
+    __param(2, common_1.Req()),
+    __param(3, common_1.Headers()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "ejecutarResta", null);
+__decorate([
+    common_1.Put("multiplicacion/:uno/:dos"),
+    common_1.HttpCode(201),
+    __param(0, common_1.Param()),
+    __param(1, common_1.Res({ passthrough: true })),
+    __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "ejecutarMultiplicacion", null);
+__decorate([
+    common_1.Put("division/:uno/:dos"),
+    common_1.HttpCode(201),
+    __param(0, common_1.Param()),
+    __param(1, common_1.Res({ passthrough: true })),
+    __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "ejecutarDivision", null);
 __decorate([
     common_1.Get(),
     common_1.HttpCode(200),
