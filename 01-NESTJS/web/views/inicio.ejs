@@ -1,1 +1,26 @@
+
+<%- include('./comunes/cabecera')%>
+
 <h1>Hola mundo</h1>
+
+<p><%= "Hola"%></p>
+
+<p><%= 15%></p>
+
+<% const jonathan = {nombre: "Jonathan", apellido: "Tejada" , cedula: "1750702068"}%>
+
+<% const numero=25%>
+<p><%= jonathan.nombre%> <%=numero%></p>
+
+<%const aprobado=true%>
+
+
+<% const arregloNumeros=[1,2,3,4,5]%>
+
+<ul>
+    <%arregloNumeros.forEach((objeto)=> {%>
+        <li><%=objeto %></li>
+    <%})%>
+
+</ul>
+<%- include('./comunes/footer')%>

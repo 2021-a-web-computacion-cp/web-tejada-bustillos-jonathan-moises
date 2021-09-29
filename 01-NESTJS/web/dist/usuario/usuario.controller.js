@@ -21,8 +21,28 @@ let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
         this.usuarioService = usuarioService;
     }
-    listaUsuarios(response) {
+    vistacrear(response) {
+        response.render('usuario/crear');
+    }
+    inicio(response) {
         response.render('inicio');
+    }
+    async listaUsuarios(response, parametrosConsulta) {
+        try {
+            const respuesta = await this.usuarioService.buscarMuchos({
+                skip: parametrosConsulta.skip ? +parametrosConsulta.skip : undefined,
+                take: parametrosConsulta.take ? +parametrosConsulta.take : undefined,
+                busqueda: parametrosConsulta.busqueda ? parametrosConsulta.busqueda : undefined,
+            });
+            response.render('usuario/lista', {
+                datos: {
+                    usuario: respuesta,
+                }
+            });
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('error del servidor');
+        }
     }
     obtenerUno(parametrosRuta) {
         return this.usuarioService.buscarUno(+parametrosRuta.idUsuario);
@@ -48,19 +68,54 @@ let UsuarioController = class UsuarioController {
             throw new common_1.InternalServerErrorException('Error Servidor');
         }
     }
-    editarUno(bodyParams, parametrosRuta) {
-        return this.usuarioService.actualizarUno({ where: { id: +parametrosRuta.idUsuario }, data: bodyParams });
+    async editarUno(bodyParams, parametrosRuta) {
+        const usuaarioActualizarDto = new usuaario_crear_dto_1.UsuarioCrearDto();
+        usuaarioActualizarDto.nombre = bodyParams["nombre"];
+        usuaarioActualizarDto.apellido = bodyParams["apellido"];
+        try {
+            const errores = await class_validator_1.validate(usuaarioActualizarDto);
+            if (errores.length > 0) {
+                throw new common_1.BadRequestException('No envia bien parametros');
+            }
+            else {
+                return this.usuarioService.actualizarUno({
+                    where: { id: +parametrosRuta.idUsuario },
+                    data: usuaarioActualizarDto
+                });
+            }
+        }
+        catch (error) {
+            console.error({
+                error: error, mensaje: 'Errores en crear usuario'
+            });
+            throw new common_1.InternalServerErrorException('Error Servidor');
+        }
     }
     borrarUno(parametrosRuta) {
         return this.usuarioService.eliminarUno({ id: +parametrosRuta.idUsuario });
     }
 };
 __decorate([
-    common_1.Get('lista-usuarios'),
+    common_1.Get('crear-formulario'),
     __param(0, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "vistacrear", null);
+__decorate([
+    common_1.Get('inicio'),
+    __param(0, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "inicio", null);
+__decorate([
+    common_1.Get('lista-usuarios'),
+    __param(0, common_1.Res()),
+    __param(1, common_1.Query()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "listaUsuarios", null);
 __decorate([
     common_1.Get(':idUsuario'),
@@ -82,7 +137,7 @@ __decorate([
     __param(1, common_1.Param()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "editarUno", null);
 __decorate([
     common_1.Delete(':idUsuario'),

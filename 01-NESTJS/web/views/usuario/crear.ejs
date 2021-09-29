@@ -1,0 +1,36 @@
+<%- include('../comunes/cabecera')%>
+
+<h1>Crear Usuario</h1>
+<div class="conteiner">
+    <form action="crear-usuaario-formulario" method="post">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input placeholder="Ej: Jonathan"
+                   type="text"
+                   name="nombre"
+                   class="form-control"
+                   id="nombre"
+                   aria-describedby="ayudaNombre">
+            <div id="ayudaNombre" class="form-test">
+                Ingrese el Nombre
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input placeholder="Ej: Tejada"
+                   type="text"
+                   name="apellido"
+                   class="form-control"
+                   id="apellido"
+                   aria-describedby="ayudaApellido">
+            <div id="ayudaApellido" class="form-test">
+                Ingrese el Nombre
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Crear</button>
+
+    </form>
+</div>
+<%- include('../comunes/footer')%>

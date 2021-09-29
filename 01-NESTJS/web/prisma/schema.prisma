@@ -25,3 +25,13 @@ model Mascota{
     usuario         EPN_USUARIO   @relation(fields:[usuarioId],references:[id])
     usuarioId       Int
 }
+
+model Instrumentos {
+    id              Int @id @default(autoincrement())
+    nombre          String
+    tipo            String
+    cantidad        Int
+    fechaRegistro   DateTime @default(now())
+    usado           Boolean
+    precio          Float
+}
