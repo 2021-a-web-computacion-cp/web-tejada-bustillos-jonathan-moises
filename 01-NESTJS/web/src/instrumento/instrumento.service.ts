@@ -22,13 +22,14 @@ export class InstrumentoService{
         skip?: number;
         take?: number;
         busqueda?: string;
-        // orderBy?: Prisma.EPN_UsuarioOrder;
+
     }) {
         const or = parametrosBusqueda.busqueda
             ? {
                 OR: [
-                    { nombre: { contains: parametrosBusqueda.busqueda } },
                     { tipo: { contains: parametrosBusqueda.busqueda } },
+                    { nombre: { contains: parametrosBusqueda.busqueda } }
+
                 ],
             }
             : {};
@@ -45,19 +46,23 @@ export class InstrumentoService{
         });
     }
 
-    actualizarUno(parametrosParaActualizar:{
-        where: Prisma.InstrumentosWhereUniqueInput;
+    actualizarUno(parametrosActualizar: {
+        id: number;
         data: Prisma.InstrumentosUpdateInput;
-    }){
+    }) {
         return this.prisma.instrumentos.update({
-            data:parametrosParaActualizar.data,
-            where: parametrosParaActualizar.where,
+            data: parametrosActualizar.data,
+            where: {
+                id: parametrosActualizar.id,
+            },
         });
     }
-    eliminarUno(where: Prisma.InstrumentosWhereUniqueInput){
+
+
+    eliminarUno(id: number) {
         return this.prisma.instrumentos.delete({
-            where: where
-        })
+            where: { id: id },
+        });
     }
 
 }

@@ -27,8 +27,8 @@ let InstrumentoService = class InstrumentoService {
         const or = parametrosBusqueda.busqueda
             ? {
                 OR: [
-                    { nombre: { contains: parametrosBusqueda.busqueda } },
                     { tipo: { contains: parametrosBusqueda.busqueda } },
+                    { nombre: { contains: parametrosBusqueda.busqueda } }
                 ],
             }
             : {};
@@ -43,15 +43,17 @@ let InstrumentoService = class InstrumentoService {
             data: instrumento,
         });
     }
-    actualizarUno(parametrosParaActualizar) {
+    actualizarUno(parametrosActualizar) {
         return this.prisma.instrumentos.update({
-            data: parametrosParaActualizar.data,
-            where: parametrosParaActualizar.where,
+            data: parametrosActualizar.data,
+            where: {
+                id: parametrosActualizar.id,
+            },
         });
     }
-    eliminarUno(where) {
+    eliminarUno(id) {
         return this.prisma.instrumentos.delete({
-            where: where
+            where: { id: id },
         });
     }
 };

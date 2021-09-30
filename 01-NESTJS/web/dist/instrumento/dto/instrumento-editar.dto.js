@@ -49,7 +49,7 @@ __decorate([
 ], InstrumentoEditarDto.prototype, "usado", void 0);
 __decorate([
     class_validator_1.IsNotEmpty(),
-    class_validator_1.IsDecimal(),
+    class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], InstrumentoEditarDto.prototype, "precio", void 0);
 exports.InstrumentoEditarDto = InstrumentoEditarDto;

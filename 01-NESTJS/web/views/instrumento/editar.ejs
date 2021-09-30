@@ -1,0 +1,92 @@
+<%- include('../comunesinst/cabecera')%>
+<% const existeMensaje = typeof datos.mensaje !== 'undefined'%>
+<% if(existeMensaje){%>
+    <div class="alert alert-success" role="alert">
+        <%= datos.mensaje%>
+    </div>
+<%}%>
+<h1>Editar Instrumento</h1>
+<div class="conteiner">
+
+    <form action="/instrumentos/editar-instrumento-formulario?id=<%=datos.instrumento.id%>" method="post">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input value="<%=datos.instrumento.nombre%>"
+                   type="text"
+                   name="nombre"
+                   class="form-control"
+                   id="nombre"
+                   aria-describedby="ayudaNombre">
+            <div id="ayudaNombre" class="form-test">
+                <br>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <input value="<%=datos.instrumento.tipo%>"
+                   type="text"
+                   name="tipo"
+                   class="form-control"
+                   id="tipo"
+                   aria-describedby="ayudaNombre">
+            <div id="ayudaNombre" class="form-test">
+                <br>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="cantidad" class="form-label">Cantidad</label>
+            <input value="<%=datos.instrumento.cantidad%>"
+                   type="text"
+                   name="cantidad"
+                   class="form-control"
+                   id="cantidad"
+                   aria-describedby="ayudaTipo">
+            <div id="ayudaTipo" class="form-test">
+                <br>
+            </div>
+        </div>
+
+        <div class="mb-3">
+
+            <label for="usado" class="form-label">Usado</label>
+            <input type="radio"
+                   name="usado"
+                   id="usado"
+                   value="true"
+            <%if(datos.instrumento.usado==0){%>
+                checked="checked">
+            <%}else%>
+            <label for="usado" class="form-label">true</label>
+
+            <input type="radio"
+                   name="usado"
+                   id="usado"
+                   value="false"
+            <%{%>
+                checked="checked"
+            <%}%>
+            >
+            <label for="usado" class="form-label">false</label>
+
+        </div>
+
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input value="<%=datos.instrumento.precio%>"
+                   type="text"
+                   name="precio"
+                   class="form-control"
+                   id="precio"
+                   aria-describedby="ayudaApellido">
+            <div id="ayudaApellido" class="form-test">
+                <br>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Editar</button>
+
+    </form>
+</div>
+<%- include('../comunesinst/footer')%>

@@ -1,23 +1,28 @@
 <%- include('../comunesinst/cabecera')%>
+<% const existeMensaje = typeof datos.mensaje !== 'undefined'%>
+<% if(existeMensaje){%>
+    <div class="alert alert-success" role="alert">
+        <%= datos.mensaje%>
+    </div>
+<%}%>
 
-
-
+<div >
+    <a href="/instrumentos/vista-crear">
+        <button class="btn btn-success">
+            Crear nuevo Instrumento
+        </button>
+    </a>
+</div>
 <div class='container'>
-    <form action="lista-usuarios"method="get">
-        <div >
-            <a href="/usuario/vista-crear">
-                <button class="btn btn-success">
-                    Crear nuevo Usuario
-                </button>
-            </a>
-        </div>
+    <form action="lista-instrumentos"method="get">
+
 
 
         <div class="mb-3">
             <label for="busqueda" class="form-label">
                 Busqueda
             </label>
-            <input placeholder="Ej:Adri"
+            <input placeholder="Ej:Guitarra"
                    type="text"
                    name="busqueda"
                    class="form-control"
@@ -35,17 +40,43 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Fecha De Registro</th>
+            <th scope="col">Usado</th>
+            <th scope="col">Precio</th>
             <th scope="col">Eliminar</th>
+            <th scope="col">Editar</th>
         </tr>
         </thead>
         <tbody>
-        <%datos.usuario.forEach((objeto)=>{%>
+        <%datos.instrumento.forEach((objeto)=>{%>
         <tr>
             <th><%=objeto.id%></th>
             <th><%=objeto.nombre%></th>
-            <th><%=objeto.apellido%></th>
-            <th><button class="btn btn-danger">Eliminar</button></th>
+            <th><%=objeto.tipo%></th>
+            <th><%=objeto.cantidad%></th>
+            <th><%=objeto.fechaRegistro%></th>
+            <th><%=objeto.usado%></th>
+            <th><%=objeto.precio%></th>
+            <th>
+                <form action="eliminar-instrumento/<%= objeto.id%>" method='post'>
+                    <button class="btn btn-danger">Eliminar</button>
+
+                </form>
+
+            <th>
+                <form action="pedido-editar-instrumento/<%= objeto.id%>" method='post'>
+                    <button class="btn btn-danger">Editar</button>
+
+                </form>
+
+            </th>
+
+
+
+
+            </th>
         </tr>
         <%})%>
         </tbody>

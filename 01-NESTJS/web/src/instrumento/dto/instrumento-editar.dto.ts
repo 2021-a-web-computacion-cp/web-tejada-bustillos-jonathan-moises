@@ -42,6 +42,6 @@ export class InstrumentoEditarDto{
     usado:boolean
 
     @IsNotEmpty()
-    @IsDecimal()
+    @IsNumber()
     precio:number
 }

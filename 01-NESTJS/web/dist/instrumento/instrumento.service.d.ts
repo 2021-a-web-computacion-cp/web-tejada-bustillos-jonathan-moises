@@ -10,9 +10,9 @@ export declare class InstrumentoService {
         busqueda?: string;
     }): import(".prisma/client").PrismaPromise<import(".prisma/client").Instrumentos[]>;
     crearUno(instrumento: Prisma.InstrumentosCreateInput): Prisma.Prisma__InstrumentosClient<import(".prisma/client").Instrumentos>;
-    actualizarUno(parametrosParaActualizar: {
-        where: Prisma.InstrumentosWhereUniqueInput;
+    actualizarUno(parametrosActualizar: {
+        id: number;
         data: Prisma.InstrumentosUpdateInput;
     }): Prisma.Prisma__InstrumentosClient<import(".prisma/client").Instrumentos>;
-    eliminarUno(where: Prisma.InstrumentosWhereUniqueInput): Prisma.Prisma__InstrumentosClient<import(".prisma/client").Instrumentos>;
+    eliminarUno(id: number): Prisma.Prisma__InstrumentosClient<import(".prisma/client").Instrumentos>;
 }
